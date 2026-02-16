@@ -1,0 +1,7 @@
+node_modules/
+.env
+build/
+dist/
+npm-debug.log*
+server/node_modules/
+smart-expense-tracker/node_modules/
