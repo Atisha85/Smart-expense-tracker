@@ -9,7 +9,7 @@ function ForgotPassword() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/api/auth/forgot-password", { email });
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/forgot-password`, { email });
       alert("Reset link sent to email");
     } catch (error) {
       alert(error.response?.data || "Error sending reset link");

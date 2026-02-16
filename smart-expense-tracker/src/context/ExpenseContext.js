@@ -16,7 +16,8 @@ export const ExpenseProvider = ({ children }) => {
   }, [budget]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/transactions")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/transactions`)
+
       .then(res => setTransactions(res.data))
       .catch(err => console.log(err));
   }, []);
