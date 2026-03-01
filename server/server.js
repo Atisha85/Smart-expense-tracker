@@ -29,7 +29,7 @@ app.use(express.static(
 
 app.get("*", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "../smart-expense-tracker/build/index.html")
+    path.join(__dirname, "../smart-expense-tracker/build","index.html")
   );
 });
 const PORT = process.env.PORT || 5000;
