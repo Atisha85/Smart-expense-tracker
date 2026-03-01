@@ -6,7 +6,7 @@ const path = require("path");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
-const transactionRoutes = require("./routes/transactionRoutes");
+const transactionsRoutes = require("./routes/transactionsRoutes");
 
 const app = express();
 
