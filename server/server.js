@@ -15,7 +15,7 @@ app.use(express.json());
 
 /* API routes */
 app.use("/api/auth", authRoutes);
-app.use("/api/transactions", transactionRoutes);
+app.use("/api/transactions", transactionsRoutes);
 
 /* MongoDB */
 mongoose
