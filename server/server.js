@@ -25,20 +25,17 @@ mongoose
 
 /* ---------- FRONTEND BUILD ---------- */
 
-app.use(
-  express.static(
-    path.join(__dirname, "../smart-expense-tracker/build")
-  )
+const buildPath = path.join(
+  __dirname,
+  "..",
+  "smart-expense-tracker",
+  "build"
 );
 
+app.use(express.static(buildPath));
+
 app.get("/", (req, res) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      "../smart-expense-tracker/build",
-      "index.html"
-    )
-  );
+  res.sendFile(path.join(buildPath, "index.html"));
 });
 
 /* ---------- PORT ---------- */
