@@ -34,6 +34,8 @@ const buildPath = path.join(
   "build"
 );
 
+console.log("BUILD PATH =", buildPath);
+
 app.use(express.static(buildPath));
 
 app.get("/", (req, res) => {
