@@ -25,7 +25,8 @@ function Signup() {
       navigate("/login");
 
     } catch (error) {
-      alert(error.response?.data || "Signup failed");
+      console.log(error);
+      alert(error.response?.data || error.message);
     }
   };
 
