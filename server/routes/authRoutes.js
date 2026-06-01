@@ -78,7 +78,7 @@ router.post("/forgot-password", async (req, res) => {
 
     await user.save();
 
-    const resetLink = `http://localhost:3000/reset-password/${token}`;
+    const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
