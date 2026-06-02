@@ -25,7 +25,7 @@ export const ExpenseProvider = ({ children }) => {
   const addTransaction = async (transaction) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/transactions",
+        `${process.env.REACT_APP_API_URL}/api/transactions`,
         transaction
       );
 
@@ -37,9 +37,7 @@ export const ExpenseProvider = ({ children }) => {
 
   const deleteTransaction = async (id) => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/transactions/${id}`
-      );
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/transactions/${id}`);
 
       setTransactions(prev => prev.filter(t => t._id !== id));
     } catch (error) {
@@ -48,7 +46,7 @@ export const ExpenseProvider = ({ children }) => {
   };
   const deleteAllTransactions = async () => {
     try {
-      await axios.delete("http://localhost:5000/api/transactions/delete-all");
+     await axios.delete(`${API}/api/transactions/delete-all`);
       setTransactions([]);
     } catch (error) {
       console.log(error);
