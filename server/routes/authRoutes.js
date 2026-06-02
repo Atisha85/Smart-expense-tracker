@@ -83,7 +83,7 @@ router.post("/forgot-password", async (req, res) => {
 
     const result = await resend.emails.send({
   from: "onboarding@resend.dev",
-  to: user.email,
+  to: "atishasinha10@gmail.com",
   subject: "Password Reset",
   html: `
     <h2>Password Reset</h2>
