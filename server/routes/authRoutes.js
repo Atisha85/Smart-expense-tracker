@@ -2,18 +2,20 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-
+const nodemailer = require("nodemailer");
 
 const User = require("../models/User");
 
 const router = express.Router();
-const { Resend } = require("resend");
 
-console.log("RESEND_API_KEY =", process.env.RESEND_API_KEY);
-const resend = new Resend(
-  process.env.RESEND_API_KEY
-);
 // EMAIL TRANSPORTER
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 // ================= SIGNUP =================
 router.post("/signup", async (req, res) => {
@@ -81,11 +83,11 @@ router.post("/forgot-password", async (req, res) => {
     const resetLink =
   `https://smart-expense-tracker-rpl9.onrender.com/reset-password/${token}`;
 
-    const result = await resend.emails.send({
-  from: "onboarding@resend.dev",
-  to: "atishasinha10@gmail.com",
-  subject: "Password Reset",
-  html: `
+    const result = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Password Reset",
+      html: `
     <h2>Password Reset</h2>
     <a href="${resetLink}">
       Reset Password
@@ -93,7 +95,7 @@ router.post("/forgot-password", async (req, res) => {
   `,
 });
 
-console.log("RESEND RESULT:", result);
+console.log("EMAIL RESULT:", result);
 
     res.send("Reset email sent");
   } catch (err) {
