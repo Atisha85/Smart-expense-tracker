@@ -10,10 +10,12 @@ const router = express.Router();
 
 // EMAIL TRANSPORTER
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.BREVO_SMTP_USER,
+    pass: process.env.BREVO_SMTP_KEY,
   },
 });
 
@@ -84,10 +86,10 @@ router.post("/forgot-password", async (req, res) => {
   `https://smart-expense-tracker-rpl9.onrender.com/reset-password/${token}`;
 
     const result = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "Password Reset",
-      html: `
+      from: "atisha.official1@gmail.com",
+  to: user.email,
+  subject: "Password Reset",
+  html: `
     <h2>Password Reset</h2>
     <a href="${resetLink}">
       Reset Password
