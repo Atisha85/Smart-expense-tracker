@@ -84,7 +84,7 @@ router.post("/forgot-password", async (req, res) => {
 
     const resetLink =
   `https://smart-expense-tracker-rpl9.onrender.com/reset-password/${token}`;
-
+    console.log("Before send mail");
     const result = await transporter.sendMail({
       from: "atisha.official1@gmail.com",
   to: user.email,
@@ -98,6 +98,7 @@ router.post("/forgot-password", async (req, res) => {
 });
 
 console.log("EMAIL RESULT:", result);
+console.log("After send mail");
 
     res.send("Reset email sent");
   } catch (err) {
