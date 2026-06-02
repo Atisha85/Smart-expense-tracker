@@ -4,13 +4,17 @@ import axios from "axios";
 function ForgotPassword() {
 
   const [email, setEmail] = useState("");
-
+  const [resetLink, setResetLink] = useState("");
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/forgot-password`, { email });
-      alert("Reset link sent to email");
+     const response = await axios.post(
+  `${process.env.REACT_APP_API_URL}/api/auth/forgot-password`,
+  { email }
+);
+
+    setResetLink(response.data.resetLink);
     } catch (error) {
       alert(error.response?.data || "Error sending reset link");
     }
@@ -38,7 +42,20 @@ function ForgotPassword() {
         <button className="w-full p-3 bg-indigo-500 text-white rounded-lg">
           Send Reset Link
         </button>
+        {resetLink && (
+  <div className="mt-4 text-white">
+    <p className="font-semibold">Reset Link:</p>
 
+    <a
+      href={resetLink}
+      target="_blank"
+      rel="noreferrer"
+      className="text-blue-400 underline break-all"
+    >
+      {resetLink}
+    </a>
+  </div>
+)}
       </form>
     </div>
   );

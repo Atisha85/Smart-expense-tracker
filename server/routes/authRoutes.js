@@ -73,9 +73,8 @@ router.post("/login", async (req, res) => {
 
 router.post("/forgot-password", async (req, res) => {
   try {
-    console.log("Forgot password request:", req.body.email);
     const user = await User.findOne({ email: req.body.email });
-    
+
     if (!user) return res.status(400).send("User not found");
 
     const token = crypto.randomBytes(32).toString("hex");
@@ -86,27 +85,13 @@ router.post("/forgot-password", async (req, res) => {
     await user.save();
 
     const resetLink =
-  `https://smart-expense-tracker-rpl9.onrender.com/reset-password/${token}`;
-    console.log("Before send mail");
-    const result = await Promise.race([
-  transporter.sendMail({
-    from: "atisha.official1@gmail.com",
-    to: user.email,
-    subject: "Password Reset",
-    html: `
-      <h2>Password Reset</h2>
-      <a href="${resetLink}">Reset Password</a>
-    `,
-  }),
-  new Promise((_, reject) =>
-    setTimeout(() => reject(new Error("SMTP Timeout")), 15000)
-  ),
-]);
+      `https://smart-expense-tracker-rpl9.onrender.com/reset-password/${token}`;
 
-console.log("EMAIL RESULT:", result);
-console.log("After send mail");
+    res.json({
+      success: true,
+      resetLink,
+    });
 
-    res.send("Reset email sent");
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
