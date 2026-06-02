@@ -9,6 +9,7 @@ const User = require("../models/User");
 const router = express.Router();
 const { Resend } = require("resend");
 
+console.log("RESEND KEY EXISTS:", !!process.env.RESEND_API_KEY);
 const resend = new Resend(
   process.env.RESEND_API_KEY
 );
@@ -62,6 +63,7 @@ router.post("/login", async (req, res) => {
 });
 
 // ================= FORGOT PASSWORD =================
+console.log("Forgot password request:", req.body.email);
 router.post("/forgot-password", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -78,18 +80,17 @@ router.post("/forgot-password", async (req, res) => {
     const resetLink =
   `https://smart-expense-tracker-rpl9.onrender.com/reset-password/${token}`;
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
   from: "onboarding@resend.dev",
   to: user.email,
   subject: "Password Reset",
   html: `
     <h2>Password Reset</h2>
-    <p>Click below to reset password</p>
-    <a href="${resetLink}">
-      Reset Password
-    </a>
+    <a href="${resetLink}">Reset Password</a>
   `,
 });
+
+console.log("RESEND RESULT:", result);
 
     res.send("Reset email sent");
   } catch (err) {
