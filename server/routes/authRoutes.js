@@ -17,6 +17,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.BREVO_SMTP_USER,
     pass: process.env.BREVO_SMTP_KEY,
   },
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 
 // ================= SIGNUP =================
@@ -85,17 +88,20 @@ router.post("/forgot-password", async (req, res) => {
     const resetLink =
   `https://smart-expense-tracker-rpl9.onrender.com/reset-password/${token}`;
     console.log("Before send mail");
-    const result = await transporter.sendMail({
-      from: "atisha.official1@gmail.com",
-  to: user.email,
-  subject: "Password Reset",
-  html: `
-    <h2>Password Reset</h2>
-    <a href="${resetLink}">
-      Reset Password
-    </a>
-  `,
-});
+    const result = await Promise.race([
+  transporter.sendMail({
+    from: "atisha.official1@gmail.com",
+    to: user.email,
+    subject: "Password Reset",
+    html: `
+      <h2>Password Reset</h2>
+      <a href="${resetLink}">Reset Password</a>
+    `,
+  }),
+  new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("SMTP Timeout")), 15000)
+  ),
+]);
 
 console.log("EMAIL RESULT:", result);
 console.log("After send mail");
