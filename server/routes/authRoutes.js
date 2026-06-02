@@ -9,7 +9,7 @@ const User = require("../models/User");
 const router = express.Router();
 const { Resend } = require("resend");
 
-console.log("RESEND KEY EXISTS:", !!process.env.RESEND_API_KEY);
+console.log("RESEND_API_KEY =", process.env.RESEND_API_KEY);
 const resend = new Resend(
   process.env.RESEND_API_KEY
 );
@@ -63,11 +63,12 @@ router.post("/login", async (req, res) => {
 });
 
 // ================= FORGOT PASSWORD =================
-console.log("Forgot password request:", req.body.email);
+
 router.post("/forgot-password", async (req, res) => {
   try {
+    console.log("Forgot password request:", req.body.email);
     const user = await User.findOne({ email: req.body.email });
-
+    
     if (!user) return res.status(400).send("User not found");
 
     const token = crypto.randomBytes(32).toString("hex");
@@ -86,7 +87,9 @@ router.post("/forgot-password", async (req, res) => {
   subject: "Password Reset",
   html: `
     <h2>Password Reset</h2>
-    <a href="${resetLink}">Reset Password</a>
+    <a href="${resetLink}">
+      Reset Password
+    </a>
   `,
 });
 
