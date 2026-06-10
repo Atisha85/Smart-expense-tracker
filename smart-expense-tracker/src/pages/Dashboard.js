@@ -100,20 +100,7 @@ const budgetExceeded = totalExpense > budget;
       <div className="glass-card p-6">
         <ExpenseList />
       </div>
-      <button
-  onClick={() => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete all transactions?"
-      )
-    ) {
-      deleteAllTransactions();
-    }
-  }}
-  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg mt-4"
->
-  Delete All Transactions
-</button>
+      
 
       <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
         Logout
